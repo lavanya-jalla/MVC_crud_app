@@ -6,38 +6,34 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.example.restdemo.dao.EmployeeDao;
 import com.example.restdemo.entity.Employee;
+import com.example.restdemo.repository.EmployeeRepository;
 
 @Service
 public class EmployeeServiceImpl implements EmployeeService {
 
-    private EmployeeDao employeeDao;
-
     @Autowired
-    public EmployeeServiceImpl(EmployeeDao employeeDao) {
-        this.employeeDao = employeeDao;
-    }
+    private EmployeeRepository employeeRepository;
 
     @Override
     public List<Employee> findAll() {
-        return employeeDao.findAll();
+        return employeeRepository.findAll();
     }
 
     @Override
     public Employee findById(int id) {
-        return employeeDao.findById(id);
+        return employeeRepository.findById(id).orElse(null);
     }
 
     @Transactional
     @Override
     public Employee save(Employee employee) {
-        return employeeDao.save(employee);
+        return employeeRepository.save(employee);
     }
 
     @Transactional
     @Override
     public void deleteById(int id) {
-        employeeDao.deleteById(id);
+        employeeRepository.deleteById(id);
     }
 }
